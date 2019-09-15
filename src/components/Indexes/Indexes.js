@@ -61,27 +61,45 @@ class Indexes extends Component {
                     </Fab>
                 </Container>
                 <Grid container className="Indexes-Grid">
-                    <TextareaAutosize
-                        rows={30}
-                        className="Indexes-TextArea"
-                        aria-label="circular_shift"
-                        placeholder="Words to Circular Shift"
-                        defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
-                    />
-                    <TextareaAutosize
-                        rows={30}
-                        className="Indexes-TextArea"
-                        aria-label="alphabetizer"
-                        placeholder="Words to Alphabetizer"
-                        defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
-                    />
-                    <TextareaAutosize
-                        rows={30}
-                        className="Indexes-TextArea"
-                        aria-label="denoiser"
-                        placeholder="Words to Denoise"
-                        defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
-                    />
+                    <Grid item>
+                        <Typography className="Indexes-Grid-Title" variant="h5" component="h4">
+                            Circular Shift
+                        </Typography>
+                        <TextareaAutosize
+                            disabled={true}
+                            rows={30}
+                            className="Indexes-TextArea"
+                            aria-label="circular_shift"
+                            placeholder="Words to Circular Shift"
+                            defaultValue={"Beauty and the Beast\nand the Beast Beauty\nthe Beast Beauty and\nBeast Beauty and the"}
+                        />
+                    </Grid>
+                    <Grid item>
+                        <Typography className="Indexes-Grid-Title" variant="h5" component="h4">
+                            Alphabetized Shift
+                        </Typography>
+                        <TextareaAutosize
+                            disabled={true}
+                            rows={30}
+                            className="Indexes-TextArea"
+                            aria-label="alphabetizer"
+                            placeholder="Words to Alphabetizer"
+                            defaultValue={"Beauty and the Beast\nand the Beast Beauty\nthe Beast Beauty and\nBeast Beauty and the"}
+                        />
+                    </Grid>
+                    <Grid item>
+                        <Typography className="Indexes-Grid-Title" variant="h5" component="h4">
+                            Denoise Shift
+                        </Typography>
+                        <TextareaAutosize
+                            disabled={true}
+                            rows={30}
+                            className="Indexes-TextArea"
+                            aria-label="denoiser"
+                            placeholder="Words to Denoise"
+                            defaultValue={"Beauty and the Beast\nand the Beast Beauty\nthe Beast Beauty and\nBeast Beauty and the"}
+                        />
+                    </Grid>
                 </Grid>
             </div>
         );
