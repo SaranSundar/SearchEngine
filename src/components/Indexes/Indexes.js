@@ -12,12 +12,32 @@ class Indexes extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            search: ""
+            search: "",
+            circularShifts: "",
+            alphaShifts: "",
+            denoiseShifts: ""
+
         };
     }
 
     handleChange = name => event => {
         this.setState({...this.state, [name]: event.target.value});
+    };
+
+    outputShifts = (circular, alpha, denoise) => {
+        let circularShifts = "";
+        circular.forEach((item, index) => {
+            circularShifts += item + "\n";
+        });
+        let alphaShifts = "";
+        alpha.forEach((item, index) => {
+            alphaShifts += item + "\n";
+        });
+        let denoiseShifts = "";
+        denoise.forEach((item, index) => {
+            denoiseShifts += item + "\n";
+        });
+        this.setState({circularShifts, alphaShifts, denoiseShifts});
     };
 
     render() {

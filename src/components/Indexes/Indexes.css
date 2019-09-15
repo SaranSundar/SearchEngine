@@ -26,7 +26,10 @@
 
 .Indexes-TextArea {
     width: 400px;
+    height: 400px !important;
     margin: 10px;
+    resize: none;
+    overflow: scroll !important;
 }
 
 .Indexes-SearchField {
