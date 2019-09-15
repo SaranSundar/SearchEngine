@@ -20,6 +20,10 @@ class Indexes extends Component {
         };
     }
 
+    startShifts = () => {
+        
+    };
+
     handleChange = name => event => {
         this.setState({...this.state, [name]: event.target.value});
     };
@@ -56,7 +60,7 @@ class Indexes extends Component {
                         margin="normal"
                         variant="outlined"
                     />
-                    <Fab style={{marginTop: "7px"}} color="primary" aria-label="add">
+                    <Fab onClick={this.startShifts} style={{marginTop: "7px"}} color="primary" aria-label="add">
                         <AddIcon/>
                     </Fab>
                 </Container>
