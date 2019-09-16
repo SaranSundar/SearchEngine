@@ -7,6 +7,9 @@ import Grid from "@material-ui/core/Grid";
 import {Typography} from "@material-ui/core";
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import CircularShift from "../../backend/CircularShift";
+import Alphabetizer from "../../backend/Alphabetizer";
+import Denoiser from "../../backend/Denoiser";
 
 class Indexes extends Component {
     constructor(props) {
@@ -15,13 +18,25 @@ class Indexes extends Component {
             search: "",
             circularShifts: "",
             alphaShifts: "",
-            denoiseShifts: ""
-
+            denoiseShifts: "",
         };
+        this.circularShift = new CircularShift();
+        this.alphaShift = new Alphabetizer();
+        this.denoiseShift = new Denoiser();
     }
 
     startShifts = () => {
-        
+        this.circularShift.setInputLine(this.state.search);
+        let circularShifts = this.circularShift.getShiftedLines();
+
+        this.alphaShift.setInputLines(circularShifts);
+        let alphaShifts = this.alphaShift.getAlphabetizedLines();
+
+        this.denoiseShift.setInputLines(alphaShifts);
+        let denoisedShifts = this.denoiseShift.getDenoisedLines();
+
+        this.outputShifts(circularShifts, alphaShifts, denoisedShifts);
+
     };
 
     handleChange = name => event => {
@@ -29,6 +44,8 @@ class Indexes extends Component {
     };
 
     outputShifts = (circular, alpha, denoise) => {
+        console.log("Circular");
+        console.log(circular);
         let circularShifts = "";
         circular.forEach((item, index) => {
             circularShifts += item + "\n";
@@ -41,6 +58,7 @@ class Indexes extends Component {
         denoise.forEach((item, index) => {
             denoiseShifts += item + "\n";
         });
+
         this.setState({circularShifts, alphaShifts, denoiseShifts});
     };
 

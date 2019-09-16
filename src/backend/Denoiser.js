@@ -21,9 +21,9 @@ class Denoiser {
    * array if the cached array is null or empty.
    * @returns {[]} An array of strings.
    */
-  getAlphabetizedLines() {
+  getDenoisedLines() {
     // TODO: Implement
-    if (this.srcTextLines === null || this.srcTextLines.length() === 0)
+    if (this.srcTextLines === null || this.srcTextLines.length === 0)
       return [];
     return this.srcTextLines;
   }

@@ -22,7 +22,7 @@ class Alphabetizer {
    * @returns {[]} An array of strings.
    */
   getAlphabetizedLines() {
-    if (this.srcTextLines === null || this.srcTextLines.length() === 0)
+    if (this.srcTextLines === null || this.srcTextLines.length === 0)
       return [];
     return this.srcTextLines.sort();
   }

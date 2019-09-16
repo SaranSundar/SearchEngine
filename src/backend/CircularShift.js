@@ -21,7 +21,7 @@ class CircularShift {
     // List of words inside this line
     const words = this.srcText.split(' ');
     // Return empty array if input line is empty
-    if (this.srcText.length() === 0) return [];
+    if (this.srcText.length === 0) return [];
     // List of lines generated from circular shift process
     const lines = [];
 
