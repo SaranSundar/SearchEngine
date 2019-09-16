@@ -29,7 +29,7 @@ class CircularShift {
     for (let iteration = 0; iteration < words.length; iteration++) {
       // Create line by appending all words
       let line = "";
-      words.forEach(word => line += word);
+      words.forEach(word => line += word + ' ');
       // Add line to internal storage array
       lines.push(line);
 
