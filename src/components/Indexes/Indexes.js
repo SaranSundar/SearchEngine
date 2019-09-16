@@ -58,7 +58,6 @@ class Indexes extends Component {
         denoise.forEach((item, index) => {
             denoiseShifts += item + "\n";
         });
-
         this.setState({circularShifts, alphaShifts, denoiseShifts});
     };
 
@@ -93,7 +92,7 @@ class Indexes extends Component {
                             className="Indexes-TextArea"
                             aria-label="circular_shift"
                             placeholder="Words to Circular Shift"
-                            defaultValue={"Beauty and the Beast\nand the Beast Beauty\nthe Beast Beauty and\nBeast Beauty and the"}
+                            value={this.state.circularShifts}
                         />
                     </Grid>
                     <Grid item>
@@ -106,7 +105,7 @@ class Indexes extends Component {
                             className="Indexes-TextArea"
                             aria-label="alphabetizer"
                             placeholder="Words to Alphabetizer"
-                            defaultValue={"Beauty and the Beast\nand the Beast Beauty\nthe Beast Beauty and\nBeast Beauty and the"}
+                            value={this.state.alphaShifts}
                         />
                     </Grid>
                     <Grid item>
@@ -119,7 +118,7 @@ class Indexes extends Component {
                             className="Indexes-TextArea"
                             aria-label="denoiser"
                             placeholder="Words to Denoise"
-                            defaultValue={"Beauty and the Beast\nand the Beast Beauty\nthe Beast Beauty and\nBeast Beauty and the"}
+                            value={this.state.denoiseShifts}
                         />
                     </Grid>
                 </Grid>
