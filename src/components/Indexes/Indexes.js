@@ -36,7 +36,6 @@ class Indexes extends Component {
         let denoisedShifts = this.denoiseShift.getDenoisedLines();
 
         this.outputShifts(circularShifts, alphaShifts, denoisedShifts);
-
     };
 
     handleChange = name => event => {
@@ -44,20 +43,9 @@ class Indexes extends Component {
     };
 
     outputShifts = (circular, alpha, denoise) => {
-        console.log("Circular");
-        console.log(circular);
-        let circularShifts = "";
-        circular.forEach((item, index) => {
-            circularShifts += item + "\n";
-        });
-        let alphaShifts = "";
-        alpha.forEach((item, index) => {
-            alphaShifts += item + "\n";
-        });
-        let denoiseShifts = "";
-        denoise.forEach((item, index) => {
-            denoiseShifts += item + "\n";
-        });
+        const circularShifts = circular.join('\n');
+        const alphaShifts = alpha.join('\n');
+        const denoiseShifts = denoise.join('\n');
         this.setState({circularShifts, alphaShifts, denoiseShifts});
     };
 
@@ -97,7 +85,7 @@ class Indexes extends Component {
                     </Grid>
                     <Grid item>
                         <Typography className="Indexes-Grid-Title" variant="h5" component="h4">
-                            Alphabetized Shift
+                            Alphabetizer
                         </Typography>
                         <TextareaAutosize
                             disabled={true}
@@ -110,7 +98,7 @@ class Indexes extends Component {
                     </Grid>
                     <Grid item>
                         <Typography className="Indexes-Grid-Title" variant="h5" component="h4">
-                            Denoise Shift
+                            Denoiser
                         </Typography>
                         <TextareaAutosize
                             disabled={true}
