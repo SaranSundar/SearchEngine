@@ -24,7 +24,9 @@ class Alphabetizer {
   getAlphabetizedLines() {
     if (this.srcTextLines === null || this.srcTextLines.length === 0)
       return [];
-    return this.srcTextLines.sort();
+
+    // Create a copy of the source array, then sort and return it.
+    return [...this.srcTextLines].sort();
   }
 
 }

@@ -25,7 +25,9 @@ class Denoiser {
     // TODO: Implement
     if (this.srcTextLines === null || this.srcTextLines.length === 0)
       return [];
-    return this.srcTextLines;
+
+    // Create a copy of the source array, then return it.
+    return [...this.srcTextLines];
   }
 
 }
