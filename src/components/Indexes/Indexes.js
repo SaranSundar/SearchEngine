@@ -28,12 +28,8 @@ class Indexes extends Component {
     startShifts = () => {
         this.circularShift.setInputLine(this.state.search);
         let circularShifts = this.circularShift.getShiftedLines();
-        console.log(circularShifts);
-
         let alphaShifts = this.alphaShift.alphabetize(circularShifts);
-        console.log(alphaShifts);
         let denoisedShifts = this.denoiseShift.denoise(alphaShifts);
-        console.log(denoisedShifts);
 
         this.outputShifts(circularShifts, alphaShifts, denoisedShifts);
     };
@@ -65,7 +61,7 @@ class Indexes extends Component {
                         margin="normal"
                         variant="outlined"
                     />
-                    <Fab onClick={this.startShifts} style={{marginTop: "7px"}} color="primary" aria-label="add">
+                    <Fab onClick={this.startShifts} style={{marginTop: "10px"}} color="primary" aria-label="add">
                         <AddIcon/>
                     </Fab>
                 </Container>

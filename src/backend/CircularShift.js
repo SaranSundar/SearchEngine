@@ -4,8 +4,8 @@ class CircularShift {
    * Creates a CircularShift object with internal storage for the line that
    * it needs to circular shift. Defaults the input line to null.
    */
-  constructor() {
-    this.srcText = null;
+  constructor(startingLines = []) {
+    this.rotatedLines = startingLines;
   }
 
   /**
@@ -14,14 +14,11 @@ class CircularShift {
    * input line is either null or empty.
    * @private
    */
-  _circularShift() {
-    // Return empty array if there is nothing to process
-    if (this.srcText === null) return [];
-
+  _circularShift(srcText) {
     // List of words inside this line
-    const words = this.srcText.split(' ');
+    const words = srcText.split(' ');
     // Return empty array if input line is empty
-    if (this.srcText.length === 0) return [];
+    if (srcText.length === 0) return [];
     // List of lines generated from circular shift process
     const lines = [];
 
@@ -46,7 +43,7 @@ class CircularShift {
    * @returns {*[]} An array of lines made from circular shifting the input line.
    */
   getShiftedLines() {
-    return this._circularShift();
+    return this.rotatedLines;
   }
 
   /**
@@ -54,7 +51,9 @@ class CircularShift {
    * @param input A string of text.
    */
   setInputLine(input) {
-    this.srcText = input;
+    const newLines = this._circularShift(input);
+    newLines.push("");
+    this.rotatedLines = this.rotatedLines.concat(newLines);
   }
 
 }

@@ -1,12 +1,12 @@
 class Denoiser {
 
   /**
-   * Creates an Alphabetizer object with internal storage for the lines that
-   * it needs to denoise.
+   * Creates a Denoiser object with internal storage for the lines that
+   * it has denoised.
    */
-  constructor() {
-    this.denoisedLines = [];
-    this.noiseWords = ['and', 'or', 'the', 'but', 'of', 'so']
+  constructor(startingLines = []) {
+    this.denoisedLines = startingLines;
+    this.noiseWords = ['and', 'or', 'the', 'but', 'of', 'so', 'at', 'be', 'a', 'is']
   }
 
   /**

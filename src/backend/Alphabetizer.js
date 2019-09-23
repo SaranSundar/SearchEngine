@@ -2,10 +2,10 @@ class Alphabetizer {
 
   /**
    * Creates an Alphabetizer object with internal storage for the lines that
-   * it needs to alphabetize.
+   * it has alphabetized.
    */
-  constructor() {
-    this.alphabetizedLines = [];
+  constructor(startingLines = []) {
+    this.alphabetizedLines = startingLines;
   }
 
   /**
@@ -13,7 +13,11 @@ class Alphabetizer {
    * @param lines An array of strings.
    */
   alphabetize(lines) {
-    this.alphabetizedLines = this.alphabetizedLines.concat(lines);
+    lines.forEach(line => {
+      if(line.length !== 0 && !this.alphabetizedLines.includes(line))
+        this.alphabetizedLines.push(line);
+    });
+
     this.alphabetizedLines.sort();
 
     return this.getAlphabetizedLines();
