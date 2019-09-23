@@ -2,32 +2,35 @@ class Denoiser {
 
   /**
    * Creates an Alphabetizer object with internal storage for the lines that
-   * it needs to denoise. Defaults the input line array to null.
+   * it needs to denoise.
    */
   constructor() {
-    this.srcTextLines = null;
+    this.denoisedLines = [];
+    this.noiseWords = ['and', 'or', 'the', 'but', 'of', 'so']
   }
 
   /**
    * Assigns the array of lines that will be processed by the denoiser.
    * @param lines An array of strings.
    */
-  setInputLines(lines) {
-    this.srcTextLines = lines;
+  denoise(lines) {
+    this.denoisedLines = lines.concat();
+    for(let i = 0; i < this.denoisedLines.length; i++) {
+      if(this.noiseWords.includes(this.denoisedLines[i].split(" ")[0].toLowerCase())) {
+        this.denoisedLines.splice(i, 1);
+        i--;
+      }
+    }
+
+    return this.getDenoisedLines();
   }
 
   /**
-   * Returns a denoised version of the currently cached lines of text. Returns an empty
-   * array if the cached array is null or empty.
+   * Returns a denoised version of the currently cached lines of text.
    * @returns {[]} An array of strings.
    */
   getDenoisedLines() {
-    // TODO: Implement
-    if (this.srcTextLines === null || this.srcTextLines.length === 0)
-      return [];
-
-    // Create a copy of the source array, then return it.
-    return [...this.srcTextLines];
+    return this.denoisedLines;
   }
 
 }

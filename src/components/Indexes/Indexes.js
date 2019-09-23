@@ -28,12 +28,12 @@ class Indexes extends Component {
     startShifts = () => {
         this.circularShift.setInputLine(this.state.search);
         let circularShifts = this.circularShift.getShiftedLines();
+        console.log(circularShifts);
 
-        this.alphaShift.setInputLines(circularShifts);
-        let alphaShifts = this.alphaShift.getAlphabetizedLines();
-
-        this.denoiseShift.setInputLines(alphaShifts);
-        let denoisedShifts = this.denoiseShift.getDenoisedLines();
+        let alphaShifts = this.alphaShift.alphabetize(circularShifts);
+        console.log(alphaShifts);
+        let denoisedShifts = this.denoiseShift.denoise(alphaShifts);
+        console.log(denoisedShifts);
 
         this.outputShifts(circularShifts, alphaShifts, denoisedShifts);
     };
@@ -79,7 +79,7 @@ class Indexes extends Component {
                             rows={30}
                             className="Indexes-TextArea"
                             aria-label="circular_shift"
-                            placeholder="Words to Circular Shift"
+                            placeholder="Lines to Circular Shift"
                             value={this.state.circularShifts}
                         />
                     </Grid>
@@ -92,20 +92,20 @@ class Indexes extends Component {
                             rows={30}
                             className="Indexes-TextArea"
                             aria-label="alphabetizer"
-                            placeholder="Words to Alphabetizer"
+                            placeholder="Lines to Alphabetize"
                             value={this.state.alphaShifts}
                         />
                     </Grid>
                     <Grid item>
                         <Typography className="Indexes-Grid-Title" variant="h5" component="h4">
-                            Denoiser
+                            Noise Eliminator
                         </Typography>
                         <TextareaAutosize
                             disabled={true}
                             rows={30}
                             className="Indexes-TextArea"
                             aria-label="denoiser"
-                            placeholder="Words to Denoise"
+                            placeholder="Lines to Denoise"
                             value={this.state.denoiseShifts}
                         />
                     </Grid>
