@@ -26,6 +26,7 @@ class Indexes extends Component {
     }
 
     startShifts = () => {
+        this.setState({circularShifts: "", alphaShifts: "", denoisedShifts: ""});
         this.circularShift.setInputLine(this.state.search);
         let circularShifts = this.circularShift.getShiftedLines();
         let alphaShifts = this.alphaShift.alphabetize(circularShifts);
@@ -42,7 +43,15 @@ class Indexes extends Component {
         const circularShifts = circular.join('\n');
         const alphaShifts = alpha.join('\n');
         const denoiseShifts = denoise.join('\n');
-        this.setState({circularShifts, alphaShifts, denoiseShifts});
+        this.setState({circularShifts}, () => {
+            setTimeout(() => {
+                this.setState({alphaShifts}, () => {
+                    setTimeout(() => {
+                        this.setState({denoiseShifts});
+                    }, 500);
+                });
+            }, 500);
+        });
     };
 
     render() {
