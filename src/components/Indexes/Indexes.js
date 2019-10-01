@@ -26,13 +26,13 @@ class Indexes extends Component {
     }
 
     startShifts = () => {
-        this.setState({circularShifts: "", alphaShifts: "", denoisedShifts: ""});
-        this.circularShift.setInputLine(this.state.search);
-        let circularShifts = this.circularShift.getShiftedLines();
-        let alphaShifts = this.alphaShift.alphabetize(circularShifts);
-        let denoisedShifts = this.denoiseShift.denoise(alphaShifts);
-
-        this.outputShifts(circularShifts, alphaShifts, denoisedShifts);
+        this.setState({alphaShifts: "", denoiseShifts: ""}, () => {
+            this.circularShift.setInputLine(this.state.search);
+            let circularShifts = this.circularShift.getShiftedLines();
+            let alphaShifts = this.alphaShift.alphabetize(circularShifts);
+            let denoiseShifts = this.denoiseShift.denoise(alphaShifts);
+            this.outputShifts(circularShifts, alphaShifts, denoiseShifts);
+        });
     };
 
     handleChange = name => event => {
@@ -69,6 +69,12 @@ class Indexes extends Component {
                         onChange={this.handleChange('search')}
                         margin="normal"
                         variant="outlined"
+                        onKeyPress={(ev) => {
+                            if (ev.key === 'Enter') {
+                                this.startShifts();
+                                ev.preventDefault();
+                            }
+                        }}
                     />
                     <Fab onClick={this.startShifts} style={{marginTop: "10px"}} color="primary" aria-label="add">
                         <AddIcon/>
