@@ -7,8 +7,6 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-import Favorite from '@material-ui/icons/Favorite';
 
 class Search extends Component {
     constructor(props) {
@@ -31,7 +29,11 @@ class Search extends Component {
             crossDomain: true,
             method: 'POST',
             headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*',},
-            body: JSON.stringify({query: this.state.search, case_sensitive: this.state.case_sensitive}),
+            body: JSON.stringify({
+                query: this.state.search,
+                case_sensitive: this.state.case_sensitive,
+                noise_words: this.props.noiseWords
+            }),
         });
         let body = await response.json();
         console.log(body);
@@ -70,7 +72,13 @@ class Search extends Component {
         ))
     };
 
+    handleCheckChange = (name) => (event) => {
+        this.setState({...this.state, [name]: event.target.checked});
+    };
+
     render() {
+        console.log("Noise words are");
+        console.log(this.props.noiseWords);
         return (
             <div className="Indexes">
                 <Typography className="Indexes-Title" variant="h4" component="h4">
@@ -78,7 +86,10 @@ class Search extends Component {
                 </Typography>
                 <Container className="Indexes-Container">
                     <FormControlLabel
-                        control={<Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} value="checkedH" />}
+                        control={
+                            <Checkbox checked={this.state.case_sensitive}
+                                      onChange={this.handleCheckChange('case_sensitive')} value="case_sensitive"/>
+                        }
                         label="Case Sensitive"
                     />
                     <TextField

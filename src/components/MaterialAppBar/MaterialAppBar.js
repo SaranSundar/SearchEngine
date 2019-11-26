@@ -16,6 +16,9 @@ function MaterialAppBar(props) {
                         Zephyr
                     </Typography>
                     <nav>
+                        <Link component={RouterLink} variant="button" color="inherit" to="/noise-words" className="Link">
+                            Noise Words
+                        </Link>
                         <Link component={RouterLink} variant="button" color="inherit" to="/indexes" className="Link">
                             Build Indexes
                         </Link>
