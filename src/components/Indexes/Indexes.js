@@ -32,6 +32,7 @@ class Indexes extends Component {
             let alphaShifts = this.alphaShift.alphabetize(circularShifts);
             let denoiseShifts = this.denoiseShift.denoise(alphaShifts);
             this.outputShifts(circularShifts, alphaShifts, denoiseShifts);
+            this.setState({search: ""})
         });
     };
 
