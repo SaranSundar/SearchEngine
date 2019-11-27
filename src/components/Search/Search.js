@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import '../Indexes/Indexes.css';
+import "./Search.css"
 import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
 import {Card, CardContent, Typography} from "@material-ui/core";
@@ -17,6 +18,7 @@ class Search extends Component {
             urls: null,
             descriptions: [],
             titles: [],
+            showAutoFill: false,
         };
     }
 
@@ -76,6 +78,35 @@ class Search extends Component {
         this.setState({...this.state, [name]: event.target.checked});
     };
 
+    displayAutofill = () => {
+        return (
+            <div className="Search">
+                <div onClick={() => {
+                    alert("You clicked me")
+                }} style={{
+                    cursor: "pointer",
+                    paddingTop: "15px",
+                    paddingLeft: "15px",
+                    borderBottom: "2px solid black"
+                }}>
+                    <Typography variant="h5">
+                        Autofill goes here
+                    </Typography>
+                </div>
+            </div>
+        );
+    };
+
+    showAuto = (e) => {
+        this.setState({showAutoFill: true});
+    };
+
+    hideAuto = (e) => {
+        setTimeout(() => {
+            this.setState({showAutoFill: false});
+        }, 100);
+    };
+
     render() {
         console.log("Noise words are");
         console.log(this.props.noiseWords);
@@ -93,11 +124,14 @@ class Search extends Component {
                         label="Case Sensitive"
                     />
                     <TextField
+                        autoComplete="off"
                         id="search"
                         placeholder="Search"
                         value={this.state.search}
                         className="Indexes-SearchField"
                         onChange={this.handleChange('search')}
+                        onFocus={this.showAuto}
+                        onBlur={this.hideAuto}
                         margin="normal"
                         variant="outlined"
                         onKeyPress={(ev) => {
@@ -107,6 +141,7 @@ class Search extends Component {
                             }
                         }}
                     />
+                    {this.state.showAutoFill && this.displayAutofill()}
                     <Fab onClick={this.searchIndexes} style={{marginTop: "10px"}} color="primary" aria-label="add">
                         <AddIcon/>
                     </Fab>

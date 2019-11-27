@@ -1,2 +1,9 @@
 .Search {
+    width: 600px;
+    height: 200px;
+    position: absolute;
+    background: #d7d7d7;
+    border-radius: 25px;
+    top: 29%;
+    left: 35%;
 }
