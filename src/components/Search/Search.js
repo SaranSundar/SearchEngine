@@ -24,7 +24,11 @@ class Search extends Component {
     }
 
     handleChange = name => event => {
-        this.setState({...this.state, [name]: event.target.value});
+        this.setState({...this.state, [name]: event.target.value}, () => {
+            if (name === 'search'){
+                this.getAutoFill();
+            }
+        });
     };
 
     getAutoFill = async () => {
@@ -158,8 +162,6 @@ class Search extends Component {
                                 this.searchIndexes();
                                 this.setState({showAutoFill: false});
                                 ev.preventDefault();
-                            } else {
-                                this.getAutoFill();
                             }
                         }}
                     />
