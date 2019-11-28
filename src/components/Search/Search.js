@@ -163,6 +163,9 @@ class Search extends Component {
                                 this.setState({showAutoFill: false});
                                 ev.preventDefault();
                             }
+                            else{
+                                this.setState({showAutoFill: true});
+                            }
                         }}
                     />
                     {this.state.showAutoFill && this.displayAutofill()}
