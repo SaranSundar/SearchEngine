@@ -19,11 +19,28 @@ class Search extends Component {
             descriptions: [],
             titles: [],
             showAutoFill: false,
+            autoFillSuggestions: [],
         };
     }
 
     handleChange = name => event => {
         this.setState({...this.state, [name]: event.target.value});
+    };
+
+    getAutoFill = async () => {
+        let url = "http://localhost:8000/server_bp/auto-fill";
+        const response = await fetch(url, {
+            crossDomain: true,
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*',},
+            body: JSON.stringify({
+                query: this.state.search,
+            }),
+        });
+        let body = await response.json();
+        console.log(body);
+        this.setState({autoFillSuggestions: body['auto_fill']});
+
     };
 
     searchIndexes = async () => {
@@ -38,7 +55,6 @@ class Search extends Component {
             }),
         });
         let body = await response.json();
-        console.log(body);
         this.setState({urls: body['urls'], descriptions: body['descriptions'], titles: body['titles']});
     };
 
@@ -81,18 +97,22 @@ class Search extends Component {
     displayAutofill = () => {
         return (
             <div className="Search">
-                <div onClick={() => {
-                    alert("You clicked me")
-                }} style={{
-                    cursor: "pointer",
-                    paddingTop: "15px",
-                    paddingLeft: "15px",
-                    borderBottom: "2px solid black"
-                }}>
-                    <Typography variant="h5">
-                        Autofill goes here
-                    </Typography>
-                </div>
+                {this.state.autoFillSuggestions.map(value => {
+                    return (
+                        <div onClick={() => {
+                            this.setState({search: value})
+                        }} style={{
+                            cursor: "pointer",
+                            paddingTop: "15px",
+                            paddingLeft: "15px",
+                            borderBottom: "2px solid black"
+                        }}>
+                            <Typography variant="h5">
+                                {value}
+                            </Typography>
+                        </div>
+                    );
+                })}
             </div>
         );
     };
@@ -107,9 +127,8 @@ class Search extends Component {
         }, 100);
     };
 
+
     render() {
-        console.log("Noise words are");
-        console.log(this.props.noiseWords);
         return (
             <div className="Indexes">
                 <Typography className="Indexes-Title" variant="h4" component="h4">
@@ -137,7 +156,10 @@ class Search extends Component {
                         onKeyPress={(ev) => {
                             if (ev.key === 'Enter') {
                                 this.searchIndexes();
+                                this.setState({showAutoFill: false});
                                 ev.preventDefault();
+                            } else {
+                                this.getAutoFill();
                             }
                         }}
                     />
