@@ -8,6 +8,7 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Grid from "@material-ui/core/Grid";
 
 class Search extends Component {
     constructor(props) {
@@ -20,15 +21,67 @@ class Search extends Component {
             titles: [],
             showAutoFill: false,
             autoFillSuggestions: [],
+            resultsPerPage: 5,
+            currentPage: 1
         };
     }
 
     handleChange = name => event => {
         this.setState({...this.state, [name]: event.target.value}, () => {
-            if (name === 'search'){
+            if (name === 'search') {
                 this.getAutoFill();
             }
         });
+    };
+
+    goBack = () => {
+        let pageNum = this.state.currentPage - 1;
+        if (pageNum < 1) {
+            pageNum = 1;
+        }
+        this.setState({currentPage: pageNum});
+        console.log("Current page " + pageNum);
+        console.log("Current url length " + this.state.urls.length);
+    };
+
+    goForward = () => {
+        let pageNum = this.state.currentPage + 1;
+        if (pageNum > parseInt(this.state.urls.length / this.state.resultsPerPage, 10) + 1) {
+            pageNum = parseInt(this.state.urls.length / this.state.resultsPerPage, 10) + 1;
+        }
+        this.setState({currentPage: pageNum});
+        console.log("Current page " + pageNum);
+        console.log("Current url length " + this.state.urls.length);
+    };
+
+    showPageStepper = () => {
+        if (this.state.urls === null || this.state.urls.length === 0) {
+            return;
+        }
+        let pagesLength = parseInt(this.state.urls.length / this.state.resultsPerPage, 10) + 1;
+        let pages = [];
+        for (let i = 0; i < pagesLength; i++) {
+            pages.push(i + 1);
+        }
+        return (
+            <Grid container className="CenterSearch">
+                <Fab variant="extended" onClick={this.goBack}>
+                    Prev
+                </Fab>
+                {pages.map(((value, index) => this.getStyleTypo(value)))}
+                <Fab variant="extended" onClick={this.goForward}>
+                    Next
+                </Fab>
+            </Grid>
+        )
+    };
+
+    getStyleTypo = (value) => {
+        if (value === this.state.currentPage) {
+            return <Typography style={{padding: "15px", fontWeight: "bold"}} variant="h6">{value}</Typography>
+        } else {
+            return <Typography style={{padding: "15px"}} variant="h6">{value}</Typography>;
+        }
     };
 
     getAutoFill = async () => {
@@ -62,6 +115,31 @@ class Search extends Component {
         this.setState({urls: body['urls'], descriptions: body['descriptions'], titles: body['titles']});
     };
 
+    displayIfInPage = (index) => {
+        // resultsPerPage: 5,
+        // currentPage: 1
+        console.log("INdex is " + index);
+        let range = this.state.currentPage * this.state.resultsPerPage;
+        if (index + 1 >= range - this.state.resultsPerPage && index + 1 <= range) {
+            return <Card style={{margin: "5px"}}>
+                <CardContent>
+                    <a href={this.state.urls[index]} style={{cursor: "pointer", textDecoration: "none"}}
+                       target="_blank">
+                        <Typography gutterBottom variant="h5" style={{color: "blue"}}>
+                            {this.state.titles[index]}
+                        </Typography>
+                        <Typography gutterBottom variant="h5" style={{color: "green"}}>
+                            {this.state.urls[index]}
+                        </Typography>
+                    </a>
+                    <Typography gutterBottom variant="h5">
+                        {this.state.descriptions[index]}
+                    </Typography>
+                </CardContent>
+            </Card>;
+        }
+    };
+
     displayResults = () => {
         if (this.state.urls === null) {
             return;
@@ -74,24 +152,8 @@ class Search extends Component {
                     </CardContent>
                 </Card>);
         }
-        return this.state.urls.map(((url, index) =>
-                <Card style={{margin: "5px"}}>
-                    <CardContent>
-                        <a href={this.state.urls[index]} style={{cursor: "pointer", textDecoration: "none"}}
-                           target="_blank">
-                            <Typography gutterBottom variant="h5" style={{color: "blue"}}>
-                                {this.state.titles[index]}
-                            </Typography>
-                            <Typography gutterBottom variant="h5" style={{color: "green"}}>
-                                {this.state.urls[index]}
-                            </Typography>
-                        </a>
-                        <Typography gutterBottom variant="h5">
-                            {this.state.descriptions[index]}
-                        </Typography>
-                    </CardContent>
-                </Card>
-        ))
+        return this.state.urls.map((url, index) =>
+            this.displayIfInPage(index));
     };
 
     handleCheckChange = (name) => (event) => {
@@ -104,7 +166,9 @@ class Search extends Component {
                 {this.state.autoFillSuggestions.map(value => {
                     return (
                         <div onClick={() => {
-                            this.setState({search: value})
+                            this.setState({search: value, showAutoFill: false}, () => {
+                                this.searchIndexes();
+                            })
                         }} style={{
                             cursor: "pointer",
                             paddingTop: "15px",
@@ -162,8 +226,7 @@ class Search extends Component {
                                 this.searchIndexes();
                                 this.setState({showAutoFill: false});
                                 ev.preventDefault();
-                            }
-                            else{
+                            } else {
                                 this.setState({showAutoFill: true});
                             }
                         }}
@@ -174,6 +237,9 @@ class Search extends Component {
                     </Fab>
                     <Container>
                         {this.displayResults()}
+                    </Container>
+                    <Container>
+                        {this.showPageStepper()}
                     </Container>
                 </Container>
             </div>

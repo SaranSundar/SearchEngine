@@ -6,3 +6,8 @@
     top: 29%;
     left: 35%;
 }
+
+.CenterSearch{
+    display: flex;
+    justify-content: center;
+}

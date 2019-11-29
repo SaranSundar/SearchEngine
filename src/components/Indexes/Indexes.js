@@ -80,6 +80,7 @@ class Indexes extends Component {
                 </Typography>
                 <Container className="Indexes-Container">
                     <TextField
+                        autoComplete="off"
                         id="search"
                         placeholder="Enter URL"
                         value={this.state.search}
