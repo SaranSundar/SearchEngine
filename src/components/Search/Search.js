@@ -9,6 +9,7 @@ import AddIcon from '@material-ui/icons/Add';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from "@material-ui/core/Grid";
+import Slider from "@material-ui/core/Slider";
 
 class Search extends Component {
     constructor(props) {
@@ -22,7 +23,9 @@ class Search extends Component {
             showAutoFill: false,
             autoFillSuggestions: [],
             resultsPerPage: 5,
-            currentPage: 1
+            currentPage: 1,
+            ordering: true,
+            numOfPages: 1,
         };
     }
 
@@ -40,27 +43,22 @@ class Search extends Component {
             pageNum = 1;
         }
         this.setState({currentPage: pageNum});
-        console.log("Current page " + pageNum);
-        console.log("Current url length " + this.state.urls.length);
     };
 
     goForward = () => {
         let pageNum = this.state.currentPage + 1;
-        if (pageNum > parseInt(this.state.urls.length / this.state.resultsPerPage, 10) + 1) {
-            pageNum = parseInt(this.state.urls.length / this.state.resultsPerPage, 10) + 1;
+        if (pageNum > this.state.numOfPages) {
+            pageNum = this.state.numOfPages;
         }
         this.setState({currentPage: pageNum});
-        console.log("Current page " + pageNum);
-        console.log("Current url length " + this.state.urls.length);
     };
 
     showPageStepper = () => {
         if (this.state.urls === null || this.state.urls.length === 0) {
             return;
         }
-        let pagesLength = parseInt(this.state.urls.length / this.state.resultsPerPage, 10) + 1;
         let pages = [];
-        for (let i = 0; i < pagesLength; i++) {
+        for (let i = 0; i < this.state.numOfPages; i++) {
             pages.push(i + 1);
         }
         return (
@@ -108,19 +106,19 @@ class Search extends Component {
             body: JSON.stringify({
                 query: this.state.search,
                 case_sensitive: this.state.case_sensitive,
-                noise_words: this.props.noiseWords
+                noise_words: this.props.noiseWords,
+                ordering: this.state.ordering,
+                results_per_page: this.state.resultsPerPage
             }),
         });
         let body = await response.json();
-        this.setState({urls: body['urls'], descriptions: body['descriptions'], titles: body['titles']});
+        this.setState({urls: body['urls'], descriptions: body['descriptions'], titles: body['titles'], numOfPages : body['num_of_pages']});
     };
 
     displayIfInPage = (index) => {
         // resultsPerPage: 5,
         // currentPage: 1
-        console.log("INdex is " + index);
-        let range = this.state.currentPage * this.state.resultsPerPage;
-        if (index + 1 >= range - this.state.resultsPerPage && index + 1 <= range) {
+        if (index < (this.state.currentPage * this.state.resultsPerPage) && index >= (this.state.currentPage * this.state.resultsPerPage) - this.state.resultsPerPage) {
             return <Card style={{margin: "5px"}}>
                 <CardContent>
                     <a href={this.state.urls[index]} style={{cursor: "pointer", textDecoration: "none"}}
@@ -157,7 +155,9 @@ class Search extends Component {
     };
 
     handleCheckChange = (name) => (event) => {
-        this.setState({...this.state, [name]: event.target.checked});
+        this.setState({...this.state, [name]: event.target.checked}, () => {
+            this.searchIndexes();
+        });
     };
 
     displayAutofill = () => {
@@ -195,7 +195,6 @@ class Search extends Component {
         }, 100);
     };
 
-
     render() {
         return (
             <div className="Indexes">
@@ -203,12 +202,31 @@ class Search extends Component {
                     Zephyr
                 </Typography>
                 <Container className="Indexes-Container">
+                    <Typography gutterBottom>Results Per Page</Typography>
+                    <Slider
+                        defaultValue={5}
+                        aria-labelledby="discrete-slider"
+                        valueLabelDisplay="auto"
+                        step={1}
+                        min={1}
+                        max={20}
+                        onChange={(e, val) => this.setState({resultsPerPage: val}, () => {
+                            this.searchIndexes();
+                        })}
+                    />
                     <FormControlLabel
                         control={
                             <Checkbox checked={this.state.case_sensitive}
                                       onChange={this.handleCheckChange('case_sensitive')} value="case_sensitive"/>
                         }
                         label="Case Sensitive"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox checked={this.state.ordering}
+                                      onChange={this.handleCheckChange('ordering')} value="ordering"/>
+                        }
+                        label="Ordering Alphabetical"
                     />
                     <TextField
                         autoComplete="off"
