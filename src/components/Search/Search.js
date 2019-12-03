@@ -226,7 +226,7 @@ class Search extends Component {
                             <Checkbox checked={this.state.ordering}
                                       onChange={this.handleCheckChange('ordering')} value="ordering"/>
                         }
-                        label="Ordering Alphabetical"
+                        label="Order alphabetically"
                     />
                     <TextField
                         autoComplete="off"
