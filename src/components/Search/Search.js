@@ -5,7 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
 import {Card, CardContent, Typography} from "@material-ui/core";
 import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
+import SearchIcon from '@material-ui/icons/Search';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from "@material-ui/core/Grid";
@@ -251,7 +251,7 @@ class Search extends Component {
                     />
                     {this.state.showAutoFill && this.displayAutofill()}
                     <Fab onClick={this.searchIndexes} style={{marginTop: "10px"}} color="primary" aria-label="add">
-                        <AddIcon/>
+                        <SearchIcon/>
                     </Fab>
                     <Container>
                         {this.displayResults()}
